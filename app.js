@@ -1,16 +1,18 @@
 const express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
-    mongoose = require("mongoose");
-    Campground = require("./modules/campground");
-    Comment = require("./modules/comments");
+    mongoose = require("mongoose"),
+    Campground = require("./modules/models/campground"),
+    Comment = require("./modules/models/comments"),
+    seedDB = require("./seeds");
+
 mongoose.connect("mongodb://localhost/yelp_camp", {
     useNewUrlParser: true,
     useUnifiedTopology: true
    });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-
+seedDB();
 
 /* Campground.create({
     name: "Granite Hill",
@@ -56,10 +58,11 @@ app.get("/campgrounds/new", function (req, res) {
 //SHOW - show more info about one campground
 app.get("/campgrounds/:id", function (req, res) {
     //finde the campground with provided ID
-    Campground.findById(req.params.id, function (err, foundCampground) {
+    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
         if (err) {
             console.log(err);
         } else {
+            console.log(foundCampground)
             //render show template with that campground
             res.render("show", {campground: foundCampground});
         }

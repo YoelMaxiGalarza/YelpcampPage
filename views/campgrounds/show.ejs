@@ -1,13 +1,58 @@
-<%- include("../partials/header") %> 
-<h1>
-    <%= campground.name %> 
-</h1>
-<img src="<%= campground.image %> " alt="">
-<p><%= campground.description %> </p>
-<% campground.comments.forEach(function(comment){ %>
-    <p> <strong><%= comment.author %></strong> - <%= comment.text %> </p>
-<% }) %>
-<p>
-    <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment!</a>
-</p>
-<%- include("../partials/footer") %> 
+<%- include("../partials/header") %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">YELPCAMP</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <img class="card-img-top" src="<%= campground.image %> " alt="">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="h4">
+                            <a href="#"><%= campground.name %> </a>
+                        </div>
+                        <div class="h4">
+                            <span>$9.00/night</span>
+                        </div>
+                    </div>
+                    <p><%= campground.description %> </p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="text-right">
+                    <p>
+                        <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment!</a>
+                    </p>
+                </div>
+                <hr>
+                <% campground.comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="d-flex">
+                                <div class="mr-auto">
+                                   <strong><%= comment.author %></strong>
+                                </div>
+                                <div class="p">
+                                    <span>10 days ago</span>      
+                                </div>
+                            </div>
+                            <p class="text-left">
+                                <%= comment.text %> 
+                            </p>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<%- include("../partials/footer") %>

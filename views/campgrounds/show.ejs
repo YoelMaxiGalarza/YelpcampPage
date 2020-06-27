@@ -22,13 +22,18 @@
                         </div>
                     </div>
                     <p><%= campground.description %> </p>
+                    <form action="/campgrounds/<%= campground._id %>/delete?_method=DELETE" method="POST">
+                        <button class="btn btn-danger" >Delete Campground</button>
+                    </form>
                 </div>
             </div>
             <div class="card-footer">
                 <div class="text-right">
+                    
                     <p>
                         <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment!</a>
                     </p>
+                    
                 </div>
                 <hr>
                 <% campground.comments.forEach(function(comment){ %>

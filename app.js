@@ -101,7 +101,7 @@ app.delete("/campgrounds/:id/delete", function (req, res) {
     });
 });
 //COMMENTS CREATE ROUTE - add a new comment to the selected campground
-app.post("/campgrounds/:id/comments", function (req, res) {
+app.post("/campgrounds/:id/comments", isLoggedIn, function (req, res) {
     //lookup campground using ID
     Campground.findById(req.params.id, function (err, campground) {
         if (err) {
@@ -129,7 +129,7 @@ app.get("/campgrounds/new", function (req, res) {
     res.render("campgrounds/new")
 });
 //COMMENTS NEW ROUTE - add a new comment to a campground
-app.get("/campgrounds/:id/comments/new", function (req, res) {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function (req, res) {
     //find campground by id
     Campground.findById(req.params.id, function (err, campground) {
         if (err) console.log(err);
@@ -153,17 +153,17 @@ app.get("/campgrounds/:id", function (req, res) {
 //=======================
 //REGISTRATION ROUTES====================================================
 app.get("/register", (req, res) =>{
-    res.render("registration");
+    res.render("register");
 });
-app.post("/registration", (req, res)=>{
+app.post("/register", (req, res)=>{
     var newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             console.log(err);
-            return res.render("registration");
+            return res.render("register");
         }
         passport.authenticate("local")(req, res, function(){
-            res.redirect("/landing");
+            res.redirect("/");
         });
     });
 });
@@ -183,7 +183,12 @@ app.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/");
 });
-
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 app.listen(3000, function () {
     console.log("The yelpcamp server has started");
 });

@@ -33,6 +33,7 @@ router.get("/campgrounds/:id/comments/new", isLoggedIn, function (req, res) {
         else res.render("comments/new", { campground: campground });
     });
 });
+
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();

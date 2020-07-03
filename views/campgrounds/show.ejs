@@ -21,10 +21,16 @@
                             <span>$9.00/night</span>
                         </div>
                     </div>
+                    <p>
+                        <em>Submited By <%= campground.author.username.toUpperCase(); %> </em>
+                    </p>
                     <p><%= campground.description %> </p>
-                    <form action="/campgrounds/<%= campground._id %>/delete?_method=DELETE" method="POST">
-                        <button class="btn btn-danger" >Delete Campground</button>
-                    </form>
+                    <div class="d-flex">
+                        <form action="/campgrounds/<%= campground._id %>/delete?_method=DELETE" method="POST">
+                            <button class="btn btn-danger mr-1" >Delete</button>                        
+                        </form>
+                        <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-warning">Edit</a>
+                    </div>
                 </div>
             </div>
             <div class="card-footer">
@@ -41,7 +47,7 @@
                         <div class="col-md-12">
                             <div class="d-flex">
                                 <div class="mr-auto">
-                                   <strong><%= comment.author %></strong>
+                                   <strong><%= comment.author.username %></strong>
                                 </div>
                                 <div class="p">
                                     <span>10 days ago</span>      

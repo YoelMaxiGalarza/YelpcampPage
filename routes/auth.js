@@ -6,9 +6,6 @@ const   express = require("express"),
 router.get("/", function (req, res) {
     res.render("landing");
 });
-//=======================
-//AUTHENTICATION ROUTES
-//=======================
 //REGISTRATION ROUTES====================================================
 router.get("/register", (req, res) =>{
     res.render("register");

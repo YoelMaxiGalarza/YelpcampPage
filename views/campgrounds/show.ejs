@@ -27,9 +27,9 @@
                     <p><%= campground.description %> </p>
                     <div class="d-flex">
                         <form action="/campgrounds/<%= campground._id %>/delete?_method=DELETE" method="POST">
-                            <button class="btn btn-danger mr-1" >Delete</button>                        
+                            <button class="btn btn-sm btn-danger mr-1" >Delete</button>                        
                         </form>
-                        <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-warning">Edit</a>
+                        <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <div class="text-right">
                     
                     <p>
-                        <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment!</a>
+                        <a class="btn btn-success  btn-sm" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment!</a>
                     </p>
                     
                 </div>

@@ -1,9 +1,7 @@
-const express = require("express");
-const router = express.Router();
-methodOverride = require("method-override"),
-    Campground = require("../models/campground"),
-    Comment = require("../models/comments");
-
+const   express = require("express"),
+        router = express.Router(),
+        Campground = require("../models/campground"),
+        Comment = require("../models/comments");
 //INDEX - Show all campgrounds
 router.get("/", function (req, res) {
     req.user

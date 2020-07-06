@@ -19,7 +19,9 @@ var authRoutes = require("./routes/auth")
 //Connecting to Data Base
 mongoose.connect("mongodb://localhost/yelp_camp", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
 });
 //Methods to use
 app.use(methodOverride("_method"));

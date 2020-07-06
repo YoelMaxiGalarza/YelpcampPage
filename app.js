@@ -45,7 +45,7 @@ app.use(function(req, res, next){
 });
 app.use(authRoutes);
 app.use("/campgrounds",campgroundRoutes);
-app.use(commentRoutes);
+app.use("/campgrounds/:id/comments",commentRoutes);
 app.listen(3000, function () {
     console.log("The yelpcamp server has started");
 });

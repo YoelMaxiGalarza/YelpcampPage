@@ -1,9 +1,12 @@
+const campground = require("../models/campground");
+const { route } = require("./campgrounds");
+
 const   express = require("express"),
-        router = express.Router(),
+        router = express.Router({mergeParams: true}),
         Campground = require("../models/campground"),
         Comment = require("../models/comments");
 //COMMENTS CREATE ROUTE - add a new comment to the selected campground
-router.post("/campgrounds/:id/comments", isLoggedIn, function (req, res) {
+router.post("/", isLoggedIn, function (req, res) {
     //lookup campground using ID
     Campground.findById(req.params.id, function (err, campground) {
         if (err) {
@@ -31,11 +34,48 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function (req, res) {
     });
 });
 //COMMENTS NEW ROUTE - add a new comment to a campground
-router.get("/campgrounds/:id/comments/new", isLoggedIn, function (req, res) {
+router.get("/new", isLoggedIn, function (req, res) {
     //find campground by id
     Campground.findById(req.params.id, function (err, campground) {
         if (err) console.log(err);
         else res.render("comments/new", { campground: campground });
+    });
+});
+//COMMENTS EDIT ROUTE
+router.get("/:comment_id/edit", (req, res)=>{
+    Campground.findById(req.params.id, (err, campground)=>{
+        if (err) {
+            console.log(err);
+        } else {
+           Comment.findById(req.params.comment_id, (err, foundComment)=>{
+                if (err) {
+                    res.redirect("back")
+                } else {
+                    res.render("comments/edit", { campground: campground, comment: foundComment});
+                }
+            }); 
+        }
+    });
+});
+//COMMENTS UPDATE ROUTE
+router.put("/:comment_id", (req, res)=>{
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment)=>{
+        if(err){
+            res.redirect("back");
+        } else{
+            res.redirect("/campgrounds/" + req.params.id );
+        }
+    });
+});
+//COMMETNS DELETE ROUTE
+router.delete("/:comment_id", (req, res)=>{
+    //findbyid and remove
+    Comment.findByIdAndRemove(req.params.comment_id, (err, foundComment)=>{
+        if (err) {
+            res.redirect("back");
+        } else {
+            res.redirect("/campgrounds/" + req.params.id);
+        }
     });
 });
 

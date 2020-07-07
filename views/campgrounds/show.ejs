@@ -60,10 +60,10 @@
                             </p>
                         <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>                          
                             <div class="d-flex">
-                                <a class="btn btn-warning btn-sm mr-1" role = "button" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
                                 <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </form>
+                                <a class="btn btn-warning btn-sm ml-1" role = "button" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
                             </div>
                         <% } %> 
                         </div>

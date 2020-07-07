@@ -15,7 +15,8 @@ router.post("/register", (req, res)=>{
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             console.log(err);
-            return res.render("register");
+            req.flash('error', 'A user with the given username is already registered');
+            return res.redirect("/register");
         }
         passport.authenticate("local")(req, res, function(){
             res.redirect("/");

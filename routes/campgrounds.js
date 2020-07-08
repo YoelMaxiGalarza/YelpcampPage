@@ -51,6 +51,10 @@ router.get("/:id", function (req, res) {
             console.log(err);
             res.redirect('back');
         } else {
+            if (!foundCampground) {
+                req.flash("error", "Item not found.");
+                return res.redirect("back");
+            }
             //render show template with that campground
             res.render("campgrounds/show", { campground: foundCampground });
         }
@@ -59,6 +63,10 @@ router.get("/:id", function (req, res) {
 //EDIT CAMPGROUND ROUTE
 router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
+        if (!foundCampground) {
+            req.flash("error", "Item not found.");
+            return res.redirect("back");
+        }
         res.render("campgrounds/edit", { campground: foundCampground });
     });
 });

@@ -52,6 +52,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, (req, res)=>{
     Campground.findById(req.params.id, (err, campground)=>{
         if (err) {
             console.log(err);
+            req.flash("error", "You dont have permission to do that!");
             res.redirect('back');
         } else {
            Comment.findById(req.params.comment_id, (err, foundComment)=>{
@@ -68,8 +69,8 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, (req, res)=>{
 router.put("/:comment_id", middleware.checkCommentOwnership, (req, res)=>{
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment)=>{
         if(err){
+            req.flash('error', "You don't have permission to do that!");
             res.redirect("back");
-
         } else{
             req.flash('warning', 'Comment edited!');
             res.redirect("/campgrounds/" + req.params.id );
@@ -81,9 +82,10 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, (req, res)=>{
     //findbyid and remove
     Comment.findByIdAndRemove(req.params.comment_id, (err, foundComment)=>{
         if (err) {
+            req.flash("error", "You don't have permission to do that!");
             res.redirect("back");
         } else {
-            req.flash("warning", 'Comment Deleted');
+            req.flash("error", 'Comment Deleted!');
             res.redirect("/campgrounds/" + req.params.id);
         }
     });

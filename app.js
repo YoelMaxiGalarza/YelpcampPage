@@ -5,7 +5,8 @@ const   express = require("express"),
         mongoose = require("mongoose"),
         methodOverride = require("method-override"),
         passport = require("passport"),
-        LocalStrategy = require("passport-local");
+        LocalStrategy = require("passport-local"),
+        flash = require("connect-flash");
 //File Imports
 const   Campground = require("./models/campground"),
         Comment = require("./models/comments"),
@@ -28,6 +29,7 @@ app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.use(flash());
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -43,6 +45,9 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+    res.locals.warning = req.flash("warning");
     next();
 });
 app.use(authRoutes);

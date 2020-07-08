@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width">
     <title>YelpCamp</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/stylesheet/main.css">
+    <link rel="stylesheet" href="public/stylesheet/main.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
     <div class="d-flex flex-grow-1">
       <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
       <a class="navbar-brand" href="/">YelpCamp</a>
@@ -38,3 +38,20 @@
       </ul>
   </div>
 </nav>
+<div class="container">
+  <% if(error && error.length > 0){ %>
+  <div class="alert alert-danger mt-3" role="alert">
+    <%= error %>
+  </div>
+<% } %>
+<% if(success && success.length > 0){ %>
+  <div class="alert alert-success mt-3" role="alert">
+    <%= success %>
+  </div>
+<% } %>
+<% if(warning && warning.length > 0){ %>
+  <div class="alert alert-warning mt-3" role="alert">
+      <%= warning %>
+  </div>
+<% } %>
+</div>

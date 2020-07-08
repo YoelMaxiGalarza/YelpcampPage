@@ -10,6 +10,7 @@ router.get("/", function (req, res) {
     Campground.find({}, function (err, allCampgrounds) {
         if (err) {
             console.log(err);
+            res.redirect('back');
         } else {
             res.render("campgrounds/index", { campgrounds: allCampgrounds })
         }
@@ -31,9 +32,10 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
     }
     var newCampground = { name: name, image: image, description: desc, author: author };
     //Create a new campground and save to DB
-    Campground.create(newCampground, middleware.isLoggedIn, function (err, newlyCreated) {
+    Campground.create(newCampground, function (err, newlyCreated) {
         if (err) {
             console.log(err);
+            res.redirect('back');
         } else {
             console.log(newlyCreated);
             //redirect back to campgrounds page
@@ -47,7 +49,12 @@ router.get("/:id", function (req, res) {
     Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
         if (err) {
             console.log(err);
+            res.redirect('back');
         } else {
+            if (!foundCampground) {
+                req.flash("error", "Item not found.");
+                return res.redirect("back");
+            }
             //render show template with that campground
             res.render("campgrounds/show", { campground: foundCampground });
         }
@@ -56,6 +63,10 @@ router.get("/:id", function (req, res) {
 //EDIT CAMPGROUND ROUTE
 router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
+        if (!foundCampground) {
+            req.flash("error", "Item not found.");
+            return res.redirect("back");
+        }
         res.render("campgrounds/edit", { campground: foundCampground });
     });
 });
@@ -86,6 +97,7 @@ router.delete("/:id/delete", middleware.checkCampgroundOwnership, function (req,
                 Comment.findByIdAndRemove(idcomment, function (err) {
                     if (err) {
                         console.log(err);
+                        res.redirect('back');
                     } else {
                         console.log("Eliminando comentarios");
                     }
@@ -94,6 +106,7 @@ router.delete("/:id/delete", middleware.checkCampgroundOwnership, function (req,
             Campground.findByIdAndRemove(req.params.id, function (err) {
                 if (err) {
                     console.log(err);
+                    res.redirect('back');
                 } else {
                     console.log("Campground Borrado!");
                     res.redirect("/campgrounds");

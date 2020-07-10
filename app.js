@@ -16,9 +16,9 @@ const   Campground = require("./models/campground"),
 var commentRoutes = require("./routes/comments")
 var campgroundRoutes = require("./routes/campgrounds")
 var authRoutes = require("./routes/auth")
-//seedDB();
+seedDB();
 //Connecting to Data Base
-mongoose.connect("mongodb://localhost/yelp_camp", {
+mongoose.connect("mongodb+srv://yoelmaxi96:yoel2013@cluster0.r1v7a.mongodb.net/yelp_camp?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

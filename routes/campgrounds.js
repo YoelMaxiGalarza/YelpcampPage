@@ -104,7 +104,7 @@ router.put("/:id", upload.single('image'), function (req, res) {
         } else {
             if (req.file) {
                 try {
-                    await cloudinary.v2.uploader.destroy(campground.imageId);
+                    //await cloudinary.v2.uploader.destroy(campground.imageId);
                     var result = await cloudinary.v2.uploader.upload(req.file.path);
                     campground.imageId = result.public_id;
                     campground.image = result.secure_url;
@@ -113,8 +113,10 @@ router.put("/:id", upload.single('image'), function (req, res) {
                     return res.redirect("back");
                 }
             }
-            campground.name = req.body.name;
-            campground.description = req.body.description;
+            console.log(req.body.name);
+            console.log(req.body.description);
+            campground.name = req.body.campground.name;
+            campground.description = req.body.campground.description;
             campground.save();
             req.flash("success", "Successfully Updated!");
             res.redirect("/campgrounds/" + campground._id);
@@ -127,7 +129,7 @@ router.delete("/:id/delete", middleware.checkCampgroundOwnership, function (req,
     Campground.findById(req.params.id, async function (err, campground) {
         if (err) {
             console.log(err);
-            res.redirect("/campgrounds");
+            res.redirect("back");
             //create new comment
         } else {
             if (req.file) {
@@ -153,7 +155,7 @@ router.delete("/:id/delete", middleware.checkCampgroundOwnership, function (req,
                     console.log(err);
                     res.redirect('back');
                 } else {
-                    console.log("Campground Borrado!");
+                    req.flash("success", "Campground Deleted Succesfully!");
                     res.redirect("/campgrounds");
                 }
             });
